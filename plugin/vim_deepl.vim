@@ -5,4 +5,5 @@ endif
 let g:vim_deepl= 1
 
 command! -nargs=0 DeeplEcho call vim_deepl#Echo()
-command! -nargs=0 Deepl call vim_deepl#Main()
+command! -nargs=1 DeeplTerm call vim_deepl#ValidLang(<f-args>)
+command! -nargs=* Deepl call vim_deepl#Main(<f-args>)
