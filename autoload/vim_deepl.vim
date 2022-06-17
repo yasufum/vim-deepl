@@ -1,5 +1,12 @@
-function! vim_deepl#Echo() abort
-    echo "call vim_deepl#Echo!"
+function! vim_deepl#Main() abort
+    " Get selected region in visual mode.
+    let tmp = @@
+    silent normal gvy
+    let selected = @@
+    let @@ = tmp
+
+    let l:res = s:translate(selected, 'EN', 'JA')
+    echo l:res
 endfunction
 
 " Return abbr term of language.
@@ -62,7 +69,7 @@ function! s:translate(...) abort
 endfunction
 
 " Main
-function! vim_deepl#Main(...) abort
+function! vim_deepl#Term(...) abort
     let l:defaultSrc = 'EN'
     let l:defaultTgt = 'JA'
 
