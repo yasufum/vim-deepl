@@ -9,6 +9,12 @@ function! vim_deepl#Main() abort
     echo l:res
 endfunction
 
+function! vim_deepl#SearchOnCursor() abort
+    let l:word = expand("<cword>")
+    let l:res = s:translate(l:word, 'EN', 'JA')
+    echo l:res
+endfunction
+
 " Return abbr term of language.
 " https://www.deepl.com/ja/docs-api/translating-text/
 function! s:getLangTerm(term)
