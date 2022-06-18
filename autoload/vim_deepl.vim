@@ -60,17 +60,24 @@ endfunction
 
 " Translage given term
 function! s:translate(...) abort
-    let l:text = a:1
+    " Replace backquotes to avoid enclosed terms are run as a command.
+    let l:text = substitute(a:1, '`', "'", 'g')
+    " Replace double quotes which are dropped while parsing with jq.
+    let l:text = substitute(l:text, '"', "'", 'g')
     let l:src = s:getLangTerm(a:2)
     let l:tgt = s:getLangTerm(a:3)
 
     let l:dlUrl = g:vim_deepl#endpoint
+                \. ' --silent'
                 \. ' -d auth_key='.g:vim_deepl#authkey
                 \. ' -d "text='.l:text.'"'
                 \. ' -d "source_lang='.l:src.'"'
                 \. ' -d "target_lang='.l:tgt.'"'
-    let l:cmd = 'curl -X GET '.l:dlUrl
-    let l:res = system(l:cmd)
+    let l:cmd = 'curl -X GET '.l:dlUrl.' | jq .translations[0].text'
+
+    " Remove newline
+    let l:res = system(l:cmd)[:-2]
+
     return l:res
 endfunction
 
