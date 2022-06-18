@@ -60,6 +60,12 @@ endfunction
 
 " Translage given term
 function! s:translate(...) abort
+    " Check your authkey first.
+    if g:vim_deepl#authkey == ''
+        echo 'Error: You should set $DEEPL_AUTHKEY for your deepl auth key!'
+        return ''
+    endif
+
     " Replace backquotes to avoid enclosed terms are run as a command.
     let l:text = substitute(a:1, '`', "'", 'g')
     " Replace double quotes which are dropped while parsing with jq.
