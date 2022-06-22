@@ -9,7 +9,7 @@ let g:vim_deepl#authkey=$DEEPL_AUTHKEY
 
 command! -range=% Deepl call vim_deepl#Main()
 command! DeeplOnCursor call vim_deepl#SearchOnCursor()
-command! -nargs=1 DeeplTestValidLang call vim_deepl#ValidLang(<f-args>)
+command! -nargs=? DeeplShowLang call vim_deepl#ShowLang(<f-args>)
 command! -nargs=* DeeplTerm call vim_deepl#Term(<f-args>)
 
 "nnoremap <Leader>t :DeeplOnCursor<CR>

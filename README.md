@@ -23,6 +23,7 @@ Here is a list of functions provided in this plugin.
 1. Deepl: Translate selected region in **visual mode**.
 2. DeeplOnCursor: Translate a term on which cursor is in **normal mode**.
 3. DeeplTerm: Translate given term.
+4. DeeplShowLang: Show supported languages.
 
 For `DeeplTerm`, it takes additional arguments, names or its short terms of
 source and target language. For instance, it translate Japanese word
@@ -34,6 +35,16 @@ source and target language. For instance, it translate Japanese word
 
 " Given word with names of languages.
 :DeeplTerm こんにちは Japanese German
+```
+
+You can find all supported languages with `DeeplShowLang` command for source
+and target. If you run this command with no arguments, it shows all supported
+languages. On the other hand, find abbrebiation form from language name and
+vise versa.
+
+```
+:DeeplShowLang JA
+Japanese
 ```
 
 ## Configuration

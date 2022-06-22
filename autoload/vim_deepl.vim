@@ -1,3 +1,32 @@
+let s:langMap = {
+            \'BG':'Bulgarian',
+            \'CS':'Czech',
+            \'DA':'Danish',
+            \'DE':'German',
+            \'EL':'Greek',
+            \'EN':'English',
+            \'ES':'Spanish',
+            \'ET':'Estonian',
+            \'FI':'Finnish',
+            \'FR':'French',
+            \'HU':'Hungarian',
+            \'ID':'Indonesian',
+            \'IT':'Italian',
+            \'JA':'Japanese',
+            \'LT':'Lithuanian',
+            \'LV':'Latvian',
+            \'NL':'Dutch',
+            \'PL':'Polish',
+            \'PT':'Portuguese',
+            \'RO':'Romanian',
+            \'RU':'Russian',
+            \'SK':'Slovak',
+            \'SL':'Slovenian',
+            \'SV':'Swedish',
+            \'TR':'Turkish',
+            \'ZH':'Chinese'
+            \}
+
 function! vim_deepl#Main() abort
     " Get selected region in visual mode.
     let tmp = @@
@@ -16,45 +45,39 @@ function! vim_deepl#SearchOnCursor() abort
 endfunction
 
 " Return abbr term of language.
-" https://www.deepl.com/ja/docs-api/translating-text/
-function! s:getLangTerm(term)
-    let l:langMap = {
-                \'BG':'Bulgarian',
-                \'CS':'Czech',
-                \'DA':'Danish',
-                \'DE':'German',
-                \'EL':'Greek',
-                \'EN':'English',
-                \'ES':'Spanish',
-                \'ET':'Estonian',
-                \'FI':'Finnish',
-                \'FR':'French',
-                \'HU':'Hungarian',
-                \'ID':'Indonesian',
-                \'IT':'Italian',
-                \'JA':'Japanese',
-                \'LT':'Lithuanian',
-                \'LV':'Latvian',
-                \'NL':'Dutch',
-                \'PL':'Polish',
-                \'PT':'Portuguese',
-                \'RO':'Romanian',
-                \'RU':'Russian',
-                \'SK':'Slovak',
-                \'SL':'Slovenian',
-                \'SV':'Swedish',
-                \'TR':'Turkish',
-                \'ZH':'Chinese'
-                \}
-
-    let ls = keys(l:langMap)
-    for k in ls
+function! s:getAbbrTerm(term) abort
+    let ks = keys(s:langMap)
+    for k in ks
         if k == a:term
             return k
-        elseif l:langMap[k] == a:term
+        elseif s:langMap[k] == a:term
             return k
         endif
     endfor
+endfunction
+
+" Show all supported languages, or each name or its abbreviation form of given
+" term.
+" https://www.deepl.com/ja/docs-api/translating-text/
+function! s:langTerm(...) abort
+    if a:0 == 0
+        let ks = keys(s:langMap)
+        let l:res = ""
+        for k in ks
+            let l:res = l:res . k . ": " . s:langMap[k] . "\n"
+        endfor
+        let l:res = l:res[0:-2]
+        return l:res
+    else
+        let ks = keys(s:langMap)
+        for k in ks
+            if k == a:1
+                return s:langMap[k]
+            elseif s:langMap[k] == a:1
+                return k
+            endif
+        endfor
+    end
     return ''
 endfunction
 
@@ -70,8 +93,8 @@ function! s:translate(...) abort
     let l:text = substitute(a:1, '`', "'", 'g')
     " Replace double quotes which are dropped while parsing with jq.
     let l:text = substitute(l:text, '"', "'", 'g')
-    let l:src = s:getLangTerm(a:2)
-    let l:tgt = s:getLangTerm(a:3)
+    let l:src = s:getAbbrTerm(a:2)
+    let l:tgt = s:getAbbrTerm(a:3)
 
     let l:dlUrl = g:vim_deepl#endpoint
                 \. ' --silent'
@@ -109,6 +132,10 @@ function! vim_deepl#Term(...) abort
 endfunction
 
 " tmp function for test
-function! vim_deepl#ValidLang(term) abort
-    echo s:getLangTerm(a:term)
+function! vim_deepl#ShowLang(...) abort
+    if a:0 == 0
+        echo s:langTerm()
+    else
+        echo s:langTerm(a:1)
+    end
 endfunction
