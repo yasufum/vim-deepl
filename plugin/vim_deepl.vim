@@ -4,6 +4,9 @@ if exists("g:vim_deepl")
 endif                                                                               
 let g:vim_deepl= 1
 
+let g:vim_deepl#srcLang = $DEEPL_SRC
+let g:vim_deepl#tgtLang = $DEEPL_TGT
+
 let g:vim_deepl#endpoint='https://api-free.deepl.com/v2/translate'
 let g:vim_deepl#authkey=$DEEPL_AUTHKEY
 

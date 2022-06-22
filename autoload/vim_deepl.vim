@@ -1,3 +1,15 @@
+if g:vim_deepl#srcLang == ''
+    let s:defaultSrc = 'EN'
+else
+    let s:defaultSrc = g:vim_deepl#srcLang
+end
+
+if g:vim_deepl#tgtLang == ''
+    let s:defaultTgt = 'JA'
+else
+    let s:defaultTgt = g:vim_deepl#tgtLang
+end
+
 let s:langMap = {
             \'BG':'Bulgarian',
             \'CS':'Czech',
@@ -34,13 +46,13 @@ function! vim_deepl#Main() abort
     let selected = @@
     let @@ = tmp
 
-    let l:res = s:translate(selected, 'EN', 'JA')
+    let l:res = s:translate(selected, s:defaultSrc, s:defaultTgt)
     echo l:res
 endfunction
 
 function! vim_deepl#SearchOnCursor() abort
     let l:word = expand("<cword>")
-    let l:res = s:translate(l:word, 'EN', 'JA')
+    let l:res = s:translate(l:word, s:defaultSrc, s:defaultTgt)
     echo l:res
 endfunction
 
@@ -112,15 +124,12 @@ endfunction
 
 " Main
 function! vim_deepl#Term(...) abort
-    let l:defaultSrc = 'EN'
-    let l:defaultTgt = 'JA'
-
     if a:0 == 1
-        let l:srcLang = l:defaultSrc
-        let l:tgtLang = l:defaultTgt
+        let l:srcLang = s:defaultSrc
+        let l:tgtLang = s:defaultTgt
     elseif a:0 == 2
         let l:srcLang = a:2
-        let l:tgtLang = l:defaultTgt
+        let l:tgtLang = s:defaultTgt
     elseif a:0 == 3
         let l:srcLang = a:2
         let l:tgtLang = a:3

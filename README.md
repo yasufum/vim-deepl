@@ -10,9 +10,18 @@ on your plan. You can find your authkey in
 [your account page](https://www.deepl.com/ja/account).
 
 ```sh
-# $HOME/.bashrc`
+# $HOME/.bashrc
 DEEPL_ENDPOINT=https://api-free.deepl.com/v2/translate
 DEEPL_AUTHKEY=[YOUR_AUTHKEY]
+```
+
+You can set source and target languages for translation optionally. The default
+values are `EN` and `JA` respectively.
+
+```sh
+# $HOME/.bashrc
+DEEPL_SRC=JA  # source
+DEEPL_TGT=EN  # target
 ```
 
 ## How to Use
