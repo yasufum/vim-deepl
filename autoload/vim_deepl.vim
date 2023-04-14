@@ -114,7 +114,7 @@ function! s:translate(...) abort
                 \. ' -d "text='.l:text.'"'
                 \. ' -d "source_lang='.l:src.'"'
                 \. ' -d "target_lang='.l:tgt.'"'
-    let l:cmd = 'curl -X GET '.l:dlUrl.' | jq .translations[0].text'
+    let l:cmd = 'curl -X GET '.l:dlUrl.' | jq ".translations[0].text"'
 
     " Remove newline
     let l:res = system(l:cmd)[:-2]
